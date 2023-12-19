@@ -1,5 +1,5 @@
 
-//window.addEventListener('DOMContentLoaded', getdata)
+window.addEventListener('DOMContentLoaded', getdata)
 const btn = document.getElementById('bt')
 btn.addEventListener('click', save) ;
 async function save(e)
@@ -12,8 +12,8 @@ let phone = document.getElementById('no').value;
 const obj = {
     name,mail,phone
 }
-let resp = await axios.post('https://crudcrud.com/api/39a7cc29969b478f9f428fb18787a04d/post' ,obj )
-window.location.reload()
+let resp = await axios.post('http://localhost:3600/post' ,obj )
+console.log(resp)
 
 
     } catch (err) {
@@ -24,11 +24,12 @@ window.location.reload()
     async function getdata()
     {
         try {
-            let res = await axios.get('https://crudcrud.com/api/39a7cc29969b478f9f428fb18787a04d/post')
-            console.log(res.data)
-            
-            for(let i =0 ;i<res.data.length ;i++) {
-                showdata(res.data[i])
+            let res = await axios.get('http://localhost:3600/get')
+            console.log(res)
+            //console.log(res.data.data)
+            for(let i =0 ;i<res.data.data.length ;i++) {
+                
+                showdata(res.data.data[i])
             }
         }
         catch(err){
@@ -42,19 +43,19 @@ window.location.reload()
                 let newlist = document.createElement('li')
                 //newlist.innerHTML = localStorage.getItem(phone)
                 let ulist = document.getElementById('additemul')
-                newlist.textContent = obj.name + '-' +obj.mail+ '-'+obj.phone;
+                newlist.textContent = obj.name + '-' +obj.email+ '-'+obj.phone;
                
                 
                 //delete
                 let dlt = document.createElement('input') ;
                 dlt.type = 'button'
-                dlt.id = obj._id ;
+                dlt.id = obj.id ;
                 dlt.value = 'delete'
                 newlist.appendChild(dlt)
                 dlt.onclick = (e) => {
                     let id= e.target.id
                     console.log(id)
-                    axios.delete(`https://crudcrud.com/api/39a7cc29969b478f9f428fb18787a04d/post/${id}`)
+                    axios.delete(`http://localhost:3600/del/${id}`)
                     .then(window.location.reload()) ;
                     
                    //newlist.appendChild(ulist) 
